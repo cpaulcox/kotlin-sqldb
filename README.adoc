@@ -1,3 +1,35 @@
 = Kotlin SQL DB Utilities
 
 
+== Delegated Property Datasource
+
+- Configured via a companion object
+- Referenced in the application code
+
+=== Configuring a Datasource/Connection Pool
+
+Configure in startup code or a test
+
+[source, kotlin]
+----
+
+val config = HikariConfig().apply {
+  poolName = "SQLitePool"
+  driverClassName = "org.sqlite.JDBC"
+  jdbcUrl = "jdbc:sqlite::memory:"
+  connectionTestQuery = "SELECT 1"
+  maxLifetime = 60000 // 60 Sec
+  idleTimeout = 45000 // 45 Sec
+  maximumPoolSize = 50 // 50 Connections (including idle connections)
+}
+
+DataSource.dataSource = HikariDataSource(config)
+
+----
+
+=== Getting a Connection
+
+[source, kotlin]
+----
+val conn1 : Connection by DataSource
+----
