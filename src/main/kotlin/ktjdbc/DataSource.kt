@@ -1,0 +1,4 @@
+package ktjdbc
+
+class DataSource {
+}
