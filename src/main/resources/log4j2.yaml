@@ -1,0 +1,33 @@
+Configuration:
+  status: warn
+
+  Appenders:
+    Console:
+      name: DetailedConsole
+      target: SYSTEM_OUT
+      PatternLayout:
+        Pattern: "%d{HH:mm:ss.SSS} %l %marker [%t] %-5level %logger{36} :: %msg%n"
+
+    RandomAccessFile:
+      - name: TEST_APPENDER
+        fileName: build/logs/test.log
+        append: false
+        PatternLayout:
+            Pattern: "%d{HH:mm:ss.SSS} %l %marker [%t] %-5level %logger{36} :: %msg%n"
+
+    Routing:
+      name: MARKER_ROUTING_APPENDER
+      Routes:
+        pattern: "$${marker:}"
+        Route:
+        - key: Test
+          ref: TEST_APPENDER
+#        - key: PAYLOAD
+#          ref: PAYLOAD_APPENDER
+
+  Loggers:
+    Root:
+      level: debug
+      AppenderRef:
+        - ref: MARKER_ROUTING_APPENDER # enforces that logging in the code must include a marker otherwise nothing will appear
+        - ref: DetailedConsole
