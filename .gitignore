@@ -7,7 +7,7 @@ target
 .mtj.tmp/
 
 # Package Files #
-*.jar
+#*.jar needed for gradle wrapper
 *.war
 *.ear
 
