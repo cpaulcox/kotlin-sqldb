@@ -5,13 +5,27 @@ import kotlin.reflect.KProperty
 
 class DataSource {
 
-   companion object {
+    lateinit var connection: Connection
 
-       lateinit var dataSource: javax.sql.DataSource
+    operator fun getValue(thisRef: Any?, property: KProperty<*>): Connection {
 
-       operator fun getValue(thisRef: Any?, property: KProperty<*>): Connection {
+        if (! ::connection.isInitialized) {
+            println("### Getting connection")
+            connection = dataSource.connection  // what happens if this throws an exception?
+        }
 
-           return dataSource.connection  // what happens if this throws an exception?
-       }
-   }
+        return connection
+    }
+
+    companion object {
+
+        lateinit var dataSource: javax.sql.DataSource
+
+        operator fun getValue(thisRef: Any?, property: KProperty<*>): Connection {
+
+            println("### Getting connection")
+
+            return dataSource.connection  // what happens if this throws an exception?
+        }
+    }
 }
