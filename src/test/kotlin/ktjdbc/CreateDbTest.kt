@@ -46,6 +46,7 @@ class CreateDbTest {
             maxLifetime = 60000 // 60 Sec
             idleTimeout = 45000 // 45 Sec
             maximumPoolSize = 50 // 50 Connections (including idle connections)
+            initializationFailTimeout = -1 // get connection in background avoids failfast on startup but may fail later
         }
         DataSource.dataSource = HikariDataSource(config)
 
@@ -128,6 +129,8 @@ class CreateDbTest {
 
         // Application code - db driver independent
         val conn1 : Connection by DataSource()              // Note the () ******************************
+                                                            // This is the declaration get/setValue is only called when used
+                                                            // which allows exception handling e.g. around conn1.use
 
         conn1.use {// try - with resources
             println("Connected")
@@ -148,8 +151,6 @@ class CreateDbTest {
 
             println("The sqlite_master table contains ${rs.getInt(1)} row(s)")
             println("The sqlite_master table contains ${rs1.getInt(1)} row(s)")
-
         }
     }
-
 }
