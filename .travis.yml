@@ -5,5 +5,5 @@ jdk:
   - oraclejdk10
 
 script:
-  - ./gradlew
-  - ./gradlew build --scan -s
+#  - ./gradlew
+  - ./gradlew build #--scan -s
