@@ -2,9 +2,13 @@ package ktjdbc
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
+import ktjdbc.schema.Person.PERSON_TABLE
+import ktjdbc.schema.Person.findPersonById
+import ktjdbc.schema.Person.insertPerson
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+
 
 class TransactionTest {
 
@@ -46,22 +50,20 @@ class TransactionTest {
             // probably should nest transaction {} within use {}.  Does close() without commit() rollback?
                 println("Connected")
 
-
-                val sql = "SELECT COUNT(*) AS n FROM sqlite_master"
-
-
                 val s = createStatement()
-                println("Created statement s")
-                val rs = s.executeQuery(sql)
-                rs.next()
+                val rs = s.execute(PERSON_TABLE)
+
+                val insert = createStatement()
+                val rsInsert = s.executeUpdate(insertPerson(1, "Bob", "Smith", "bob@email.com", "+44 123456789"))
+
+                println(rsInsert)
+
 
                 val s1 = createStatement()
-                println("Created statement s1")
-                val rs1 = s1.executeQuery(sql)
+                val rs1 = s1.executeQuery(findPersonById(1))
                 rs1.next()
 
-                println("The sqlite_master table contains ${rs.getInt(1)} row(s)")
-                println("The sqlite_master table contains ${rs1.getInt(1)} row(s)")
+                println("${rs1.getString("forename")} ")
             //}
         }
     }
