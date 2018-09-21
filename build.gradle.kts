@@ -1,20 +1,9 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+
 plugins {
-    id "org.jetbrains.kotlin.jvm" version "1.2.70"
-//    id "application"
-
-}
-
-//mainClassName = "messageBroker.app.MainKt"
-
-compileKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
-compileTestKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
+//    base
+    kotlin("jvm") version "1.2.70" //apply false
 }
 
 repositories {
@@ -22,16 +11,15 @@ repositories {
     mavenCentral()
 }
 
-ext.junit_platform_ver = "1.1.0"
-ext.junit_jupiter_ver = "5.1.0"
-ext.log4j2_ver = "2.10.0"
-
+val junit_platform_ver = "1.3.1"
+val junit_jupiter_ver = "5.3.1"
+val log4j2_ver = "2.10.0"
 
 
 dependencies {
     // Kotlin
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    compile "org.jetbrains.kotlin:kotlin-reflect"
+    compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    compile("org.jetbrains.kotlin:kotlin-reflect")
 
     // Log4j2 + Jackson for YAML config support and SLF4J adapter
     compile("org.apache.logging.log4j:log4j-api:$log4j2_ver")
@@ -51,18 +39,18 @@ dependencies {
     testCompile("org.xerial:sqlite-jdbc:3.23.1")
 
     // Hikari Connection Pool
-    testCompile group: 'com.zaxxer', name: 'HikariCP', version: '3.2.0'
+    testCompile(group = "com.zaxxer", name = "HikariCP", version = "3.2.0")
 }
 
-test {
+tasks.withType<Test> {
     useJUnitPlatform()
-//    testLogging {
-//        events "passed", "skipped", "failed"
-//    }
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.10.1'
+task<Wrapper>("wrapper") {
+    gradleVersion = "4.10.1"
 }
 
 
+tasks.withType<KotlinCompile> {
+    kotlinOptions.jvmTarget = "1.8"
+}
