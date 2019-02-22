@@ -11,6 +11,10 @@ repositories {
     mavenCentral()
 }
 
+group = "cpc"
+version = "1.0"
+
+
 val junit_platform_ver = "1.3.2"
 val junit_jupiter_ver = "5.3.2"
 val log4j2_ver = "2.10.0"
