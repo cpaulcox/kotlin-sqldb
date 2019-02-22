@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
 //    base
-    kotlin("jvm") version "1.2.70" //apply false
+    kotlin("jvm") version "1.3.21"
 }
 
 repositories {
@@ -11,8 +11,8 @@ repositories {
     mavenCentral()
 }
 
-val junit_platform_ver = "1.3.1"
-val junit_jupiter_ver = "5.3.1"
+val junit_platform_ver = "1.3.2"
+val junit_jupiter_ver = "5.3.2"
 val log4j2_ver = "2.10.0"
 
 
@@ -28,7 +28,6 @@ dependencies {
     compile("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.7.3")
     compile("com.fasterxml.jackson.core:jackson-databind:2.5.4")
 
-    compile("io.javalin:javalin:2.1.1")
 
     // Junit 5
     testCompile("org.junit.jupiter:junit-jupiter-api:$junit_jupiter_ver")
@@ -46,11 +45,11 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-task<Wrapper>("wrapper") {
-    gradleVersion = "4.10.1"
+tasks.withType<Wrapper> {
+    gradleVersion = "5.1.1"
 }
-
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
+
