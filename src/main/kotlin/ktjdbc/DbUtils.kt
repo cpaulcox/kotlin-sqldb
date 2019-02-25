@@ -70,7 +70,6 @@ fun transaction(init: Connection.() -> Any): Any {
     }
     finally {
         conn.commit()  // TODO tests on close and exception handling
-        conn.close()   // not needed with try-with-resources
     }
 }
 

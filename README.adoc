@@ -33,3 +33,8 @@ DataSource.dataSource = HikariDataSource(config)
 ----
 val conn1 : Connection by DataSource
 ----
+
+To use - get a connection wrapped in try-with-resources and nest the `transaction {}` inside.
+
+Need to ensure that one `val` and all subsequent reads use the same connection but this connection should not be shared
+between `val`s. May have to remove the companion and use `val conn1 : Connection by DataSource()` instead.
